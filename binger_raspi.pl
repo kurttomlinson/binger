@@ -66,7 +66,7 @@ system("touch ~/binger/finish.touch");
 ###################
 
 sub check_system {
-	my $epiphany_check = `which epiphany"`;
+	my $epiphany_check = `which epiphany`;
 	print "epiphany_check = $epiphany_check\n";
 	if (`which epiphany` !~ "epiphany") {
 		print "Epiphany needs to be installed. Run this command:\n"
