@@ -136,9 +136,6 @@ sub query_bing {
 	my $url = "https://www.bing.com/search?setmkt=en-US&q=" . join("+", @word_list);
 	print "url = '$url'\n";
 	my $command = build_command($url);
-	# my $command = 'DISPLAY=:0 epiphany';
-	# $command .= ' ';
-	# $command .= '"' . $url . '"';
 	print "trying to kill the browser\n";
 	system("pkill epiphany-browser");
 	system("pkill chromium");
