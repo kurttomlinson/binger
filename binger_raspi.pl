@@ -10,6 +10,11 @@ my $path = dirname(abs_path($0));
 # Autoflush the buffer
 $| = 1;
 
+########################
+### CHECK THE SYSTEM ###
+########################
+check_system();
+
 ##########################
 ### GENERATE CONSTANTS ###
 ##########################
@@ -24,6 +29,7 @@ print "number_of_mobile_searches = $number_of_mobile_searches\n";
 print "startup_delay = $startup_delay seconds\n";
 print "sleeping for $startup_delay seconds\n";
 sleep $startup_delay;
+
 ##########
 ### PC ###
 ##########
@@ -58,6 +64,19 @@ system("touch ~/binger/finish.touch");
 ###################
 ### SUBROUTINES ###
 ###################
+
+sub check_system {
+	my $epiphany_check = `which epiphany"`;
+	print "epiphany_check = $epiphany_check\n";
+	if (`which epiphany` !~ "epiphany") {
+		print "Epiphany needs to be installed. Run this command:\n"
+		print "sudo apt-get install epiphany\n"
+		exit;
+	}
+	my $x_server_check = `pidof X && echo "yup X server is running"`;
+	print "x_server_check = $x_server_check\n";
+	exit;
+}
 
 sub wait_a_bit {
 	my $seconds = generate_random_integer(30, 60);
