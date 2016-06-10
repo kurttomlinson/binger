@@ -49,7 +49,6 @@ for (my $count = 1; $count <= $number_of_pc_searches; $count++) {
 ##############
 ### Mobile ###
 ##############
-# Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36
 $user_agent = "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36";
 #system("dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"");
 
