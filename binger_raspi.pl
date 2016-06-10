@@ -69,8 +69,8 @@ sub check_system {
 	my $epiphany_check = `which epiphany`;
 	print "epiphany_check = $epiphany_check\n";
 	if (`which epiphany` !~ "epiphany") {
-		print "Epiphany needs to be installed. Run this command:\n"
-		print "sudo apt-get install epiphany\n"
+		print "Epiphany needs to be installed. Run this command:\n";
+		print "sudo apt-get install epiphany\n";
 		exit;
 	}
 	my $x_server_check = `pidof X && echo "yup X server is running"`;
