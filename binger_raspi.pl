@@ -13,9 +13,9 @@ $| = 1;
 ##########################
 ### GENERATE CONSTANTS ###
 ##########################
-my $number_of_pc_searches = generate_random_integer(2, 4);
-my $number_of_mobile_searches = generate_random_integer(2, 4);
-my $startup_delay = generate_random_integer(0, 2);
+my $number_of_pc_searches = generate_random_integer(5, 30);
+my $number_of_mobile_searches = generate_random_integer(5, 20);
+my $startup_delay = generate_random_integer(0, 60*60);
 my $browser = "";
 my $proxy = "";
 my $user_agent = "";
@@ -123,7 +123,7 @@ sub check_system {
 }
 
 sub wait_a_bit {
-	my $seconds = generate_random_integer(3, 6);
+	my $seconds = generate_random_integer(30, 60);
 	print "sleeping for $seconds seconds\n";
 	sleep $seconds;
 }
