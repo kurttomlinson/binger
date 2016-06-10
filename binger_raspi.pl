@@ -10,20 +10,22 @@ my $path = dirname(abs_path($0));
 # Autoflush the buffer
 $| = 1;
 
+##########################
+### GENERATE CONSTANTS ###
+##########################
+my $number_of_pc_searches = generate_random_integer(2, 4);
+my $number_of_mobile_searches = generate_random_integer(2, 4);
+my $startup_delay = generate_random_integer(0, 2);
+my $browser = "";
+my $proxy = "";
+my $user_agent = "";
+
 ########################
 ### CHECK THE SYSTEM ###
 ########################
 check_system();
 
-##########################
-### GENERATE CONSTANTS ###
-##########################
-my $number_of_pc_searches = generate_random_integer(30, 40);
-my $number_of_mobile_searches = generate_random_integer(20, 30);
-my $startup_delay = generate_random_integer(0, 3600);
-
 system("touch ~/binger/start.touch");
-my $seconds = generate_random_integer(1, 3);
 print "number_of_pc_searches = $number_of_pc_searches\n";
 print "number_of_mobile_searches = $number_of_mobile_searches\n";
 print "startup_delay = $startup_delay seconds\n";
@@ -33,9 +35,8 @@ sleep $startup_delay;
 ##########
 ### PC ###
 ##########
-# Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2
-system('dbus-launch gsettings set org.gnome.Epiphany user-agent "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2"');
-
+$user_agent = "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2";
+#system("dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"");
 
 for (my $count = 1; $count <= $number_of_pc_searches; $count++) {
 	wait_a_bit();
@@ -49,7 +50,8 @@ for (my $count = 1; $count <= $number_of_pc_searches; $count++) {
 ### Mobile ###
 ##############
 # Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36
-system('dbus-launch gsettings set org.gnome.Epiphany user-agent "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36"');
+$user_agent = "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36";
+#system("dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"");
 
 for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 	wait_a_bit();
@@ -59,27 +61,69 @@ for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 	print "submitted query #$count of $number_of_mobile_searches\n";
 }
 
+# clear the user agent so it goes back to default?
+system('dbus-launch gsettings set org.gnome.Epiphany user-agent ""');
+#system('dbus-launch gsettings set org.gnome.Epiphany user-agent "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2"');
 system("touch ~/binger/finish.touch");
 
 ###################
 ### SUBROUTINES ###
 ###################
 
+sub build_command {
+	print "\nbuild_command\n";
+	my $url = shift;
+	print "browser = $browser\n";
+	print "user_agent = $user_agent\n";
+	print "proxy = $proxy\n";
+	print "url = $url\n";
+	my $command = "";
+	if ($browser =~ "chromium-browser") {
+		#$command = "DISPLAY=:0 " . $browser;
+		$command .= $browser;
+		if (length($proxy) > 0) {
+			$command .= ' ' . "--proxy-server=\"$proxy\"";
+		}
+		$command .= ' ' . "--user-agent=\"$user_agent\"";
+	} elsif ($browser =~ "epiphany") {
+		$command = "dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"";
+		$command .= " && ";
+		$command .= "DISPLAY=:0 " . $browser;
+	}
+	$command .= ' ' . "\"$url\"";
+	print "command = $command\n";
+	print "press enter to continue\n";
+	<>;
+	return $command;
+}
+
 sub check_system {
 	my $epiphany_check = `which epiphany`;
 	print "epiphany_check = $epiphany_check\n";
-	if (`which epiphany` !~ "epiphany") {
+	my $chromium_check = `which chromium-browser`;
+	print "chromium_check = $chromium_check\n";
+	if (`which epiphany` =~ "epiphany") {
+		print "found epi!\n";
+		$browser = "epiphany";
+	} elsif (`which chromium-browser` =~ "chromium-browser") {
+		print "found chronme!\n";
+		$browser = "chromium-browser";
+	} else {
 		print "Epiphany needs to be installed. Run this command:\n";
 		print "sudo apt-get install epiphany-browser -y\n";
+		print "Chromium needs to be installed. Run this command:\n";
+		print "sudo apt-get install chromium-browser -y\n";
 		exit;
 	}
-	my $x_server_check = `pidof X && echo "yup X server is running"`;
-	print "x_server_check = $x_server_check\n";
-	exit;
+	# ADD A CHECK TO SEE IF X IS RUNNING HERE
+	#my $x_server_check = `pidof X && echo "yup X server is running"`;
+	#print "x_server_check = $x_server_check\n";
+	$proxy = $ENV{http_proxy};
+	print "proxy = $proxy\n";
 }
 
 sub wait_a_bit {
-	my $seconds = generate_random_integer(30, 60);
+	my $seconds = generate_random_integer(3, 6);
 	print "sleeping for $seconds seconds\n";
 	sleep $seconds;
 }
@@ -91,11 +135,13 @@ sub query_bing {
 	print "word_list = '@word_list'\n";
 	my $url = "https://www.bing.com/search?setmkt=en-US&q=" . join("+", @word_list);
 	print "url = '$url'\n";
-	my $command = 'DISPLAY=:0 epiphany';
-	$command .= ' ';
-	$command .= '"' . $url . '"';
+	my $command = build_command($url);
+	# my $command = 'DISPLAY=:0 epiphany';
+	# $command .= ' ';
+	# $command .= '"' . $url . '"';
 	print "trying to kill the browser\n";
-	system("pkill epiphany-browse");
+	system("pkill epiphany-browser");
+	system("pkill chromium");
 	print "command = '$command'\n";
 	system("$command &");
 	print "query_bing complete\n";
@@ -130,3 +176,6 @@ sub generate_random_word {
 	print "word = $word\n";
 	return $word;
 }
+
+#chromium proxy server:
+#https://www.chromium.org/developers/design-documents/network-settings..
