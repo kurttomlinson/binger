@@ -79,7 +79,6 @@ sub build_command {
 	my $command = "";
 	if ($browser =~ "chromium-browser") {
 		$command = "DISPLAY=:0 " . $browser;
-		$command .= $browser;
 		if (length($proxy) > 0) {
 			$command .= ' ' . "--proxy-server=\"$proxy\"";
 		}
