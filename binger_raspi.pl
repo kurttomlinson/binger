@@ -91,8 +91,6 @@ sub build_command {
 	}
 	$command .= ' ' . "\"$url\"";
 	print "command = $command\n";
-	print "press enter to continue\n";
-	<>;
 	return $command;
 }
 
