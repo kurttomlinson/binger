@@ -79,7 +79,6 @@ sub build_command {
 	my $command = "";
 	if ($browser =~ "chromium-browser") {
 		$command = "DISPLAY=:0 " . $browser;
-		$command .= $browser;
 		if (length($proxy) > 0) {
 			$command .= ' ' . "--proxy-server=\"$proxy\"";
 		}
@@ -91,8 +90,6 @@ sub build_command {
 	}
 	$command .= ' ' . "\"$url\"";
 	print "command = $command\n";
-	print "press enter to continue\n";
-	<>;
 	return $command;
 }
 
@@ -102,16 +99,19 @@ sub check_system {
 	my $chromium_check = `which chromium-browser`;
 	print "chromium_check = $chromium_check\n";
 	if (`which epiphany` =~ "epiphany") {
-		print "found epi!\n";
+		print "found epiphany!\n";
 		$browser = "epiphany";
 	} elsif (`which chromium-browser` =~ "chromium-browser") {
-		print "found chronme!\n";
+		print "found chrome!\n";
 		$browser = "chromium-browser";
 	} else {
+		print "=================================================\n";
 		print "Epiphany needs to be installed. Run this command:\n";
 		print "sudo apt-get install epiphany-browser -y\n";
+		print "                   --- OR ---                    \n";
 		print "Chromium needs to be installed. Run this command:\n";
 		print "sudo apt-get install chromium-browser -y\n";
+		print "=================================================\n";
 		exit;
 	}
 	# ADD A CHECK TO SEE IF X IS RUNNING HERE
