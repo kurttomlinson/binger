@@ -136,8 +136,10 @@ sub query_bing {
 	print "url = '$url'\n";
 	my $command = build_command($url);
 	print "trying to kill the browser\n";
+	system("pkill epiphany");
 	system("pkill epiphany-browser");
 	system("pkill chromium");
+	system("pkill chromium-browser");
 	print "command = '$command'\n";
 	system("$command &");
 	print "query_bing complete\n";
