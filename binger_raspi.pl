@@ -60,6 +60,8 @@ for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 	print "submitted query #$count of $number_of_mobile_searches\n";
 }
 
+# close all browsers
+kill_browsers();
 # clear the user agent so it goes back to default?
 system('dbus-launch gsettings set org.gnome.Epiphany user-agent ""');
 #system('dbus-launch gsettings set org.gnome.Epiphany user-agent "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2"');
@@ -68,6 +70,14 @@ system("touch ~/binger/finish.touch");
 ###################
 ### SUBROUTINES ###
 ###################
+
+sub kill_browsers {
+	print "trying to kill the browser\n";
+	system("pkill epiphany");
+	system("pkill epiphany-browser");
+	system("pkill chromium");
+	system("pkill chromium-browser");
+}
 
 sub build_command {
 	print "\nbuild_command\n";
@@ -135,11 +145,7 @@ sub query_bing {
 	my $url = "https://www.bing.com/search?setmkt=en-US&q=" . join("+", @word_list);
 	print "url = '$url'\n";
 	my $command = build_command($url);
-	print "trying to kill the browser\n";
-	system("pkill epiphany");
-	system("pkill epiphany-browser");
-	system("pkill chromium");
-	system("pkill chromium-browser");
+	kill_browsers();
 	print "command = '$command'\n";
 	system("$command &");
 	print "query_bing complete\n";
