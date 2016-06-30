@@ -132,7 +132,7 @@ sub check_system {
 }
 
 sub wait_a_bit {
-	my $seconds = generate_random_integer(30, 60);
+	my $seconds = generate_random_integer(1*60, 2*60);
 	print "sleeping for $seconds seconds\n";
 	sleep $seconds;
 }
