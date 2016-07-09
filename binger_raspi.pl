@@ -61,6 +61,7 @@ for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 }
 
 # close all browsers
+wait_a_bit();
 kill_browsers();
 # clear the user agent so it goes back to default?
 print "Clear the user agent so it goes back to default\n";
