@@ -63,9 +63,12 @@ for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 # close all browsers
 kill_browsers();
 # clear the user agent so it goes back to default?
+print "Clear the user agent so it goes back to default\n";
 system('dbus-launch gsettings set org.gnome.Epiphany user-agent ""');
 #system('dbus-launch gsettings set org.gnome.Epiphany user-agent "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2"');
+print "Touching the finish file\n";
 system("touch ~/binger/finish.touch");
+print "End of script.\n";
 
 ###################
 ### SUBROUTINES ###
