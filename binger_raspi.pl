@@ -13,8 +13,8 @@ $| = 1;
 ##########################
 ### GENERATE CONSTANTS ###
 ##########################
-my $number_of_pc_searches = generate_random_integer(5, 30);
-my $number_of_mobile_searches = generate_random_integer(5, 20);
+my $number_of_pc_searches = generate_random_integer(10, 35);
+my $number_of_mobile_searches = generate_random_integer(10, 25);
 my $startup_delay = generate_random_integer(0, 60*60);
 my $browser = "";
 my $proxy = "";
