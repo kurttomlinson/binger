@@ -13,6 +13,24 @@ $| = 1;
 ##########################
 ### GENERATE CONSTANTS ###
 ##########################
+my @pc_user_agents = (
+	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36", # Chrome
+	"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0", # Firefox
+	"Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2", # Epiphany
+	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41" # Opera
+);
+
+my @mobile_user_agents = (
+	"Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36", # Nexus 5 Chrome
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/51.0.2704.104 Mobile/13F69 Safari/601.1.46", # iPhone Chrome
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13F69 Safari/601.1" # iPhone Safari
+);
+
+my $length_of_pc_user_agents = (scalar @pc_user_agents);
+my $pc_user_agent = $pc_user_agents[generate_random_integer(0, $length_of_pc_user_agents)];
+my $length_of_mobile_user_agents = (scalar @mobile_user_agents);
+my $mobile_user_agent = $mobile_user_agents[generate_random_integer(0, $length_of_mobile_user_agents)];
+
 my $minimum_number_of_pc_searches = 10;
 my $maximum_number_of_pc_searches = 35;
 my $minimum_number_of_mobile_searches = 10;
@@ -48,8 +66,7 @@ sleep $startup_delay;
 ##########
 ### PC ###
 ##########
-$user_agent = "Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2";
-#system("dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"");
+$user_agent = $pc_user_agent;
 
 for (my $count = 1; $count <= $number_of_pc_searches; $count++) {
 	wait_a_bit();
@@ -62,8 +79,7 @@ for (my $count = 1; $count <= $number_of_pc_searches; $count++) {
 ##############
 ### Mobile ###
 ##############
-$user_agent = "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36";
-#system("dbus-launch gsettings set org.gnome.Epiphany user-agent \"$user_agent\"");
+$user_agent = $mobile_user_agent;
 
 for (my $count = 1; $count <= $number_of_mobile_searches; $count++) {
 	wait_a_bit();
