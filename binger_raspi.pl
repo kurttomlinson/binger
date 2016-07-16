@@ -16,6 +16,8 @@ $| = 1;
 my $number_of_pc_searches = generate_random_integer(10, 35);
 my $number_of_mobile_searches = generate_random_integer(10, 25);
 my $startup_delay = generate_random_integer(0, 60*60);
+my $minimum_delay_between_queries = 1*60;
+my $maximum_delay_between_queries = 10*60);
 my $browser = "";
 my $proxy = "";
 my $user_agent = "";
@@ -136,7 +138,7 @@ sub check_system {
 }
 
 sub wait_a_bit {
-	my $seconds = generate_random_integer(1*60, 2*60);
+	my $seconds = generate_random_integer($minimum_delay_between_queries, $maximum_delay_between_queries);
 	print "sleeping for $seconds seconds\n";
 	sleep $seconds;
 }
