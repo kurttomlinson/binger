@@ -13,14 +13,25 @@ $| = 1;
 ##########################
 ### GENERATE CONSTANTS ###
 ##########################
-my $number_of_pc_searches = generate_random_integer(10, 35);
-my $number_of_mobile_searches = generate_random_integer(10, 25);
-my $startup_delay = generate_random_integer(0, 60*60);
+my $minimum_number_of_pc_searches = 10;
+my $maximum_number_of_pc_searches = 35;
+my $minimum_number_of_mobile_searches = 10;
+my $maximum_number_of_mobile_searches = 25;
+my $minimum_startup_delay = 0*60*60;
+my $maximum_startup_delay = 10*60*60;
+
+my $number_of_pc_searches = generate_random_integer($minimum_number_of_pc_searches, $maximum_number_of_pc_searches);
+my $number_of_mobile_searches = generate_random_integer($minimum_number_of_mobile_searches, $maximum_number_of_mobile_searches);
+my $startup_delay = generate_random_integer($minimum_startup_delay_hours, $maximum_startup_delay_hours);
 my $minimum_delay_between_queries = 1*60;
-my $maximum_delay_between_queries = 10*60);
+my $maximum_delay_between_queries = 10*60;
 my $browser = "";
 my $proxy = "";
 my $user_agent = "";
+
+$maximum_process_time_hours = (($maximum_number_of_pc_searches + $maximum_number_of_mobile_searches) * $maximum_delay_between_queries + $maximum_startup_delay) / 60 / 60;
+
+print "Maximum process time is $maximum_process_time_hours hours.\n";
 
 ########################
 ### CHECK THE SYSTEM ###
