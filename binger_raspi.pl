@@ -22,7 +22,7 @@ my $maximum_startup_delay = 10*60*60;
 
 my $number_of_pc_searches = generate_random_integer($minimum_number_of_pc_searches, $maximum_number_of_pc_searches);
 my $number_of_mobile_searches = generate_random_integer($minimum_number_of_mobile_searches, $maximum_number_of_mobile_searches);
-my $startup_delay = generate_random_integer($minimum_startup_delay_hours, $maximum_startup_delay_hours);
+my $startup_delay = generate_random_integer($minimum_startup_delay, $maximum_startup_delay);
 my $minimum_delay_between_queries = 1*60;
 my $maximum_delay_between_queries = 10*60;
 my $browser = "";
