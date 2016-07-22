@@ -64,7 +64,7 @@ system("touch ~/binger/start.touch");
 print "number_of_pc_searches = $number_of_pc_searches\n";
 print "number_of_mobile_searches = $number_of_mobile_searches\n";
 print "startup_delay = $startup_delay seconds\n";
-print "sleeping for $startup_delay seconds\n";
+print "sleeping for $startup_delay seconds\n\n";
 sleep $startup_delay;
 
 ##########
@@ -173,7 +173,7 @@ sub check_system {
 
 sub wait_a_bit {
 	my $seconds = generate_random_integer($minimum_delay_between_queries, $maximum_delay_between_queries);
-	print "sleeping for $seconds seconds\n";
+	print "sleeping for $seconds seconds\n\n";
 	sleep $seconds;
 }
 
