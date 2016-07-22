@@ -7,6 +7,8 @@ use File::Basename;
 use Cwd 'abs_path';
 my $path = dirname(abs_path($0));
 
+my $quiet = 1;
+
 # Autoflush the buffer
 $| = 1;
 
@@ -134,6 +136,9 @@ sub build_command {
 		$command .= "DISPLAY=:0 " . $browser;
 	}
 	$command .= ' ' . "\"$url\"";
+	if ($quiet) {
+		$command .= " >/dev/null 2>&1";
+	}
 	print "command = $command\n";
 	return $command;
 }
